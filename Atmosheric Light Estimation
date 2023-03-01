@@ -1,0 +1,26 @@
+% Load hazy image
+hazy_image = imread('haze free.jpg');
+
+% Form maximum channel by taking all channels of hazy image
+max_channel = max(hazy_image,[],3);
+
+% Create a square structuring element of pixel width 5
+se = strel('square',5);
+
+% Perform morphological dilation on max_channel with se
+dilated_channel = imdilate(max_channel,se);
+
+% Select a patch around the brightest pixel of the dilated image
+[~, max_index] = max(dilated_channel(:));
+[center_y, center_x] = ind2sub(size(dilated_channel), max_index);
+patch_size = ceil(0.01*numel(dilated_channel));
+patch = hazy_image(max(center_y-patch_size/2,1):min(center_y+patch_size/2,end),...
+                   max(center_x-patch_size/2,1):min(center_x+patch_size/2,end),:);
+
+% Estimate atmospheric light as the median of the patch
+atm_light = median(patch,'all');
+
+% Display the result
+fprintf('The median intensity of the square patch is %f\n', atm_light);
+
+
