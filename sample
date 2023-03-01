@@ -1,5 +1,5 @@
 close all;
-clear all;clc;
+clear all;
 sourcePic=double(imread('./image/11.jpg'))/255;
 [m,n,c]=size(sourcePic);
 J = zeros(size(sourcePic));
@@ -7,10 +7,10 @@ av=sourcePic(:,:,1)+sourcePic(:,:,2)+sourcePic(:,:,3);
 av=av/3;
 tic
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Parameter Set
-b=0.1;cluster_num=10;T1=0.01;T2=0.40;dn=0.5;
-per=0.1;k_search=0.5;error1=0.0001;error2=0.0001;error=0.05;
-%%%%%%%%%%%%%%%find direction
-sourcePic_d=imresize(sourcePic,dn);
+cluster_num=10;sc=0.5;
+per=0.1;
+
+sourcePic_d=imresize(sourcePic,sc);
 [m_d,n_d,c_d]=size(sourcePic_d);
 av=(sourcePic_d(:,:,1)+sourcePic_d(:,:,2)+sourcePic_d(:,:,3))/3;
 PW=abs(sourcePic_d(:,:,1)-av)./av+abs(sourcePic_d(:,:,2)-av)./av+abs(sourcePic_d(:,:,3)-av)./av;
@@ -23,8 +23,8 @@ aa=sourcePic_d(:,:,1);bb=sourcePic_d(:,:,2);cc=sourcePic_d(:,:,3);
 R=mean2(aa(AP2));G=mean2(bb(AP2));B=mean2(cc(AP2));
 C=[1,G/R,B/R];
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Cluster
-DE=sourcePic_d(:,:,3);
-Mask = avecluster(DE,cluster_num);
+BLUE=sourcePic_d(:,:,3);
+Mask = cluster(BLUE,cluster_num);
 Mean_scene_d=ones(m_d,n_d);
 for i=1:1:cluster_num
 Pos=find(Mask==i);
