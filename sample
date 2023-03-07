@@ -3,7 +3,7 @@ clear all;
 % Input image read
 sourcePic=double(imread('./image/12.jpg'))/255;
 [m,n,c]=size(sourcePic);
-tic
+
 
 % Parameter set
 cluster_num=10;sc=0.5;per=0.1;
@@ -15,14 +15,14 @@ av=(sourcePic_d(:,:,1)+sourcePic_d(:,:,2)+sourcePic_d(:,:,3))/3;
 PW=abs(sourcePic_d(:,:,1)-av)./av+abs(sourcePic_d(:,:,2)-av)./av+abs(sourcePic_d(:,:,3)-av)./av;
 U=reshape(PW,1,m_d*n_d);
 U=sort(U,2,'ascend');
-med1=round(m_d*n_d*per)+1;
+med1=round(m_d*n_d*per);
 med2=round(m_d*n_d*(per+0.1));
 SET=find(PW<=U(med2)&PW>=U(med1));
 %Extraction of channels
 aa=sourcePic_d(:,:,1);bb=sourcePic_d(:,:,2);cc=sourcePic_d(:,:,3);
 R=mean2(aa(SET));G=mean2(bb(SET));B=mean2(cc(SET));
 C=[1,G/R,B/R];
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Cluster
+% Cluster
 BLUE=sourcePic_d(:,:,3);
 Mask = cluster(BLUE,cluster_num);
 Mean_scene_d=ones(m_d,n_d);
