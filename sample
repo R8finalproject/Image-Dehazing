@@ -15,7 +15,7 @@ av=(sourcePic_d(:,:,1)+sourcePic_d(:,:,2)+sourcePic_d(:,:,3))/3;
 PW=abs(sourcePic_d(:,:,1)-av)./av+abs(sourcePic_d(:,:,2)-av)./av+abs(sourcePic_d(:,:,3)-av)./av;
 U=reshape(PW,1,m_d*n_d);
 U=sort(U,2,'ascend');
-med1=round(m_d*n_d*per);
+med1=round(m_d*n_d*per)+1;
 med2=round(m_d*n_d*(per+0.1));
 SET=find(PW<=U(med2)&PW>=U(med1));
 %Extraction of channels
